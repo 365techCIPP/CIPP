@@ -123,9 +123,7 @@ export const RFFCFormSwitch = ({
         >
           <div className={className}>
             <CFormSwitch
-              onChange={input.onChange}
-              checked={input.checked}
-              value={input.value}
+              {...input}
               // @todo revisit this, only shows green when checked
               valid={!meta.error && meta.touched && validate}
               invalid={meta.error && meta.touched && validate}
@@ -267,9 +265,7 @@ export const RFFCFormRadio = ({
       {({ meta, input }) => (
         <div className={className}>
           <CFormCheck
-            onChange={input.onChange}
-            checked={input.checked}
-            value={input.value}
+            {...input}
             valid={!meta.error && meta.touched}
             invalid={meta.error && meta.touched}
             disabled={disabled}
@@ -287,49 +283,6 @@ export const RFFCFormRadio = ({
 
 RFFCFormRadio.propTypes = {
   ...sharedPropTypes,
-}
-
-export const RFFCFormRadioList = ({
-  name,
-  options,
-  className = 'mb-3',
-  disabled = false,
-  onClick,
-  inline = false,
-}) => {
-  return (
-    <>
-      <div className={className}>
-        {options?.map((option, key) => {
-          return (
-            <Field name={name} type="radio" value={option.value} key={key}>
-              {({ input }) => {
-                return (
-                  <>
-                    <CFormCheck
-                      name={input.name}
-                      checked={input.checked}
-                      onChange={input.onChange}
-                      type="radio"
-                      {...option}
-                      disabled={disabled}
-                      onClick={onClick}
-                      inline={inline}
-                    />
-                  </>
-                )
-              }}
-            </Field>
-          )
-        })}
-      </div>
-    </>
-  )
-}
-
-RFFCFormRadioList.propTypes = {
-  ...sharedPropTypes,
-  inline: PropTypes.bool,
 }
 
 export const RFFCFormTextarea = ({

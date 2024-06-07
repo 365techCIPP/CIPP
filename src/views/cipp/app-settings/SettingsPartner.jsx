@@ -19,7 +19,7 @@ import {
   CSpinner,
 } from '@coreui/react'
 import { Form } from 'react-final-form'
-import { RFFCFormSwitch, RFFSelectSearch } from 'src/components/forms/index.js'
+import { RFFSelectSearch } from 'src/components/forms/index.js'
 import React, { useEffect } from 'react'
 import { CippCallout } from 'src/components/layout/index.js'
 import { CippCodeBlock } from 'src/components/utilities'
@@ -45,7 +45,6 @@ export function SettingsPartner() {
   const onSubmit = (values) => {
     const shippedValues = {
       EventType: values?.EventType?.map((event) => event.value),
-      standardsExcludeAllTenants: values?.standardsExcludeAllTenants,
     }
     submitWebhook({
       path: '/api/ExecPartnerWebhook?Action=CreateSubscription',
@@ -142,8 +141,6 @@ export function SettingsPartner() {
                         label: event,
                         value: event,
                       })),
-                      standardsExcludeAllTenants:
-                        webhookConfig?.data?.Results?.standardsExcludeAllTenants,
                     }}
                     render={({ handleSubmit }) => (
                       <>
@@ -158,14 +155,6 @@ export function SettingsPartner() {
                             multi={true}
                             refreshFunction={() => webhookEvents.refetch()}
                             helpText="Select the events you want to receive notifications for."
-                          />
-                          <RFFCFormSwitch
-                            name="standardsExcludeAllTenants"
-                            helpText='Enabling this feature excludes tenants from any top-level
-                                      "All Tenants" standard. This means that only the standards you
-                                      explicitly set for this tenant will be applied.'
-                            label="Exclude onboarded tenants from top-level standards"
-                            className="mt-3"
                           />
                           <CButton
                             type="submit"

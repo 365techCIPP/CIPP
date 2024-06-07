@@ -98,7 +98,7 @@ const QuarantineList = () => {
       name: 'Reason',
       sortable: true,
       exportSelector: 'Type',
-      maxWidth: '200px',
+      maxWidth: '150px',
     },
     {
       selector: (row) => row['ReceivedTime'],
@@ -126,7 +126,7 @@ const QuarantineList = () => {
     {
       name: 'Actions',
       cell: Offcanvas,
-      maxWidth: '100px',
+      maxWidth: '150px',
     },
   ]
 
@@ -139,33 +139,6 @@ const QuarantineList = () => {
         reportName: `${tenant?.defaultDomainName}-Mailbox-Quarantine`,
         path: '/api/ListMailQuarantine',
         columns,
-        tableProps: {
-          selectableRows: true,
-          actionsList: [
-            {
-              label: 'Release',
-              color: 'info',
-              modal: true,
-              modalUrl: `/api/ExecQuarantineManagement?TenantFilter=${tenant.defaultDomainName}&ID=!Identity&Type=Release`,
-              modalMessage: 'Are you sure you want to release these messages?',
-            },
-            {
-              label: 'Deny',
-              color: 'info',
-              modal: true,
-              modalUrl: `/api/ExecQuarantineManagement?TenantFilter=${tenant.defaultDomainName}&ID=!Identity&Type=Deny`,
-              modalMessage: 'Are you sure you want to deny these messages?',
-            },
-            {
-              label: 'Release & Allow Sender',
-              color: 'info',
-              modal: true,
-              modalUrl: `/api/ExecQuarantineManagement?TenantFilter=${tenant.defaultDomainName}&ID=!Identity&Type=Release&AllowSender=true`,
-              modalMessage:
-                'Are you sure you want to release these messages, and add the senders to the whitelist?',
-            },
-          ],
-        },
         params: { TenantFilter: tenant?.defaultDomainName },
       }}
     />

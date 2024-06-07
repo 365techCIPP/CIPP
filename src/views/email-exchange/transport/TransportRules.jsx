@@ -131,10 +131,6 @@ const TransportRulesList = () => {
         </>
       }
       datatable={{
-        filterlist: [
-          { filterName: 'Enabled rules', filter: 'Complex: State eq Enabled' },
-          { filterName: 'Disabled rules', filter: 'Complex: State eq Disabled' },
-        ],
         reportName: `${tenant?.defaultDomainName}-transport-rules-list`,
         path: '/api/ListTransportRules',
         params: { TenantFilter: tenant?.defaultDomainName },

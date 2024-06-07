@@ -167,12 +167,6 @@ const EditUser = () => {
               link for more information.
             </CCallout>
           )}
-          {user?.onPremisesSyncEnabled === true && (
-            <CCallout color="warning">
-              Warning! This user Active Directory sync enabled. Edits should be made from a Domain
-              Controller.
-            </CCallout>
-          )}
           {postResults.isSuccess && (
             <CCallout color="success">{postResults.data?.Results}</CCallout>
           )}
@@ -186,7 +180,7 @@ const EditUser = () => {
               </CCol>
             </CRow>
           )}
-          <CRow className="mb-3">
+          <CRow>
             <CCol lg={6} xs={12}>
               <CippContentCard title="Account Details" icon={faEdit}>
                 {userIsFetching && <CSpinner />}

@@ -139,15 +139,11 @@ const MFAList = () => {
           {
             filterName: 'Enabled, licensed non-guest users missing MFA',
             filter:
-              'Complex: UPN notlike #EXT#; IsLicensed eq true; accountEnabled eq true; MFARegistration ne true',
+              'Complex: UPN notlike #EXT#; IsLicensed eq true; accountEnabled eq true; MFARegistration eq false',
           },
           {
             filterName: 'No MFA methods registered',
-            filter: 'Complex: MFARegistration ne true',
-          },
-          {
-            filterName: 'MFA methods registered',
-            filter: 'Complex: MFARegistration eq true',
+            filter: 'Complex: MFARegistration eq false',
           },
         ],
         columns: tenant.defaultDomainName === 'AllTenants' ? Altcolumns : columns,
