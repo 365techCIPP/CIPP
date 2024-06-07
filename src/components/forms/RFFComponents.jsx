@@ -253,54 +253,6 @@ RFFCFormInputArray.propTypes = {
   ...sharedPropTypes,
 }
 
-export const RFFCFormInputList = ({ name, label, className = 'mb-3' }) => {
-  return (
-    <>
-      <FieldArray name={name}>
-        {({ fields }) => (
-          <div>
-            <div className="mb-2">
-              {label && (
-                <CFormLabel className="me-2" htmlFor={name}>
-                  {label}
-                </CFormLabel>
-              )}
-              <CButton
-                onClick={() => fields.push({ Key: '', Value: '' })}
-                className="circular-button"
-                title={'+'}
-              >
-                <FontAwesomeIcon icon={'plus'} />
-              </CButton>
-            </div>
-            {fields.map((name, index) => (
-              <div key={name} className={className}>
-                <div>
-                  <Field name={`${name}`} component="input">
-                    {({ input, meta }) => {
-                      return <CFormInput placeholder="Value" {...input} className="mb-2" />
-                    }}
-                  </Field>
-                </div>
-                <CButton
-                  onClick={() => fields.remove(index)}
-                  className={`circular-button`}
-                  title={'-'}
-                >
-                  <FontAwesomeIcon icon={'minus'} />
-                </CButton>
-              </div>
-            ))}
-          </div>
-        )}
-      </FieldArray>
-    </>
-  )
-}
-RFFCFormInputList.propTypes = {
-  ...sharedPropTypes,
-}
-
 export const RFFCFormRadio = ({
   name,
   label,
@@ -341,6 +293,7 @@ export const RFFCFormRadioList = ({
   name,
   options,
   className = 'mb-3',
+  disabled = false,
   onClick,
   inline = false,
 }) => {
@@ -359,6 +312,7 @@ export const RFFCFormRadioList = ({
                       onChange={input.onChange}
                       type="radio"
                       {...option}
+                      disabled={disabled}
                       onClick={onClick}
                       inline={inline}
                     />
@@ -511,10 +465,10 @@ export const RFFSelectSearch = ({
   isLoading = false,
   allowCreate = false,
   refreshFunction,
-  ...props
+  props,
 }) => {
   const [inputText, setInputText] = useState('')
-  const selectSearchValues = values.map((val) => ({
+  const selectSearchvalues = values.map((val) => ({
     value: val.value,
     label: val.name,
     ...val.props,
@@ -538,33 +492,12 @@ export const RFFSelectSearch = ({
   return (
     <Field name={name} validate={validate}>
       {({ meta, input }) => {
-        const handleChange = (e) => {
-          if (onChange) {
-            onChange(e)
-          }
-          input.onChange(e)
-        }
-
-        const selectProps = {
-          classNamePrefix: 'react-select',
-          ...input,
-          name,
-          id: name,
-          disabled,
-          options: selectSearchValues,
-          placeholder,
-          isMulti: multi,
-          inputValue: inputText,
-          isLoading,
-          onChange: handleChange,
-          onInputChange: setOnInputChange,
-          ...props,
-          //merge className from props into the default className
-          className: props.className
-            ? `${props.className} react-select-container`
-            : 'react-select-container',
-        }
-
+        const handleChange = onChange
+          ? (e) => {
+              input.onChange(e)
+              onChange(e)
+            }
+          : input.onChange
         return (
           <div>
             <CFormLabel htmlFor={name}>
@@ -582,16 +515,81 @@ export const RFFSelectSearch = ({
                 </CTooltip>
               )}
             </CFormLabel>
-            {allowCreate ? (
-              <Creatable {...selectProps} isClearable={true} />
-            ) : (
-              <Select {...selectProps} isClearable={!onChange} />
+            {!allowCreate && onChange && (
+              <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={false}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                isMulti={multi}
+                onChange={handleChange}
+                onInputChange={debounceOnInputChange}
+                inputValue={inputText}
+                isLoading={isLoading}
+                {...props}
+              />
             )}
-            {meta.error && meta.touched && (
-              <span className="text-danger">
-                {typeof meta.error === 'object' ? Object.values(meta.error).join('') : meta.error}
-              </span>
+            {!allowCreate && !onChange && (
+              <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={true}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                onInputChange={setOnInputChange}
+                isMulti={multi}
+                inputValue={inputText}
+                isLoading={isLoading}
+                {...props}
+              />
             )}
+            {allowCreate && onChange && (
+              <Creatable
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={false}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                isMulti={multi}
+                onChange={handleChange}
+                onInputChange={debounceOnInputChange}
+                inputValue={inputText}
+                isLoading={isLoading}
+                {...props}
+              />
+            )}
+            {allowCreate && !onChange && (
+              <Creatable
+                className="react-select-container"
+                classNamePrefix="react-select"
+                {...input}
+                isClearable={true}
+                name={name}
+                id={name}
+                disabled={disabled}
+                options={selectSearchvalues}
+                placeholder={placeholder}
+                onInputChange={setOnInputChange}
+                isMulti={multi}
+                inputValue={inputText}
+                isLoading={isLoading}
+                {...props}
+              />
+            )}
+            {meta.error && meta.touched && <span className="text-danger">{meta.error}</span>}
           </div>
         )
       }}

@@ -140,15 +140,6 @@ const IntuneList = () => {
           expandableRows: true,
           expandableRowsComponent: ExpandedComponent,
           expandOnRowClicked: true,
-          selectableRows: true,
-          actionsList: [
-            {
-              label: 'Delete Policy',
-              modal: true,
-              modalUrl: `api/RemovePolicy?TenantFilter=${tenant?.defaultDomainName}&ID=!id&URLName=!URLName`,
-              modalMessage: 'Are you sure you want to convert these users to a shared mailbox?',
-            },
-          ],
         },
       }}
     />
