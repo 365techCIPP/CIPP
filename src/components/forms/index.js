@@ -8,7 +8,6 @@ import {
   RFFCFormTextarea,
   RFFCFormSelect,
   RFFSelectSearch,
-  RFFCFormInputArray,
 } from 'src/components/forms/RFFComponents'
 
 export {
@@ -21,5 +20,4 @@ export {
   RFFCFormTextarea,
   RFFCFormSelect,
   RFFSelectSearch,
-  RFFCFormInputArray,
 }

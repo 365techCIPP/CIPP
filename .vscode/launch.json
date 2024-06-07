@@ -9,30 +9,39 @@
       "cwd": "${file}"
     },
     {
-      "command": "npm run start-swa",
-      "name": "Run Emulator",
+      "command": "npm run start-api",
+      "name": "Run emulator",
       "request": "launch",
       "type": "node-terminal"
     },
     {
       "command": "npm start",
-      "name": "Run Frontend",
+      "name": "Run frontend",
       "request": "launch",
       "type": "node-terminal",
-      "preLaunchTask": "Run All Tasks",
+      "preLaunchTask": "RunAllTasks",
       "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
     },
     {
-      "type": "chrome",
+      "name": "Launch Edge",
       "request": "launch",
-      "name": "Launch Chrome Debugger",
-      "url": "http://localhost:4280"
+      "type": "pwa-msedge",
+      "url": "https://localhost:4280",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Attach to Edge",
+      "port": 9222,
+      "request": "attach",
+      "type": "pwa-msedge",
+      "urlFilter": "https://localhost:4280/*",
+      "webRoot": "${workspaceFolder}"
     }
   ],
   "compounds": [
     {
       "name": "Launch it all 🚀",
-      "configurations": ["Run Frontend", "Run Emulator"]
+      "configurations": ["Run frontend", "Run emulator"]
     }
   ]
 }
